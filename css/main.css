@@ -85,13 +85,13 @@ header {
 	float: left;
 	height: 478px;
 	margin: 10px;
-	padding: 10px;
+	padding: 10px 0;
 	width: 178px;
 }
 .weekday .head {
 	border-bottom: inherit;
 	overflow: hidden;
-	padding: 0 0 5px 0;
+	padding: 10px;
 }
 .weekday.today {
 	border: 1px solid #63a4db;
@@ -116,14 +116,23 @@ header {
 	overflow-y: auto;
 }
 .weekday ul li {
+	display: block;
+}
+.weekday ul li span {
 	border-bottom: 1px solid #cfcecd;
 	display: block;
-	margin: 15px 5px;
-	padding: 5px 0;
+	padding: 10px;
+	margin: 10px 15px;
+}
+.weekday ul li:hover {
+	cursor: -webkit-grab;
+	cursor: -moz-grab;
+	cursor: grab;
 }
 .weekday .addTaskBtn {
 	color: #cfcecd;
 	display: block;
+	margin: 0 10px;
 	padding: 5px;
 	text-decoration: none;
 }

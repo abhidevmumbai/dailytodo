@@ -101,7 +101,8 @@ var toDo = {
 	},
 
 	renderTask: function (task, currDate) {
-		var task = $('<li/>').text(task).attr('contenteditable','true');
+		var task = $('<li/>').append('<span>'+ task +'</span>');
+		task.find('span').attr('contenteditable','true');
 		$('.weekday[data-date="'+ currDate +'"] ul').append(task);
 	},
 
