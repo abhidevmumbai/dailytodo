@@ -1,3 +1,4 @@
+@import url(http://fonts.googleapis.com/css?family=Pacifico);
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
@@ -54,10 +55,34 @@ body {
 }
 
 .FL { float: left;} .FR { float: right;}
+header {
+	line-height: 100px;
+	overflow: hidden;
+}
+.logo {
+	color: #1d89e4;
+	font-size: 50px;
+	font-family: 'Pacifico', cursive;
+}
+
+.desc:before {
+	color: #93a3b0;
+	content: "/";
+	font-size: 70px;
+	font-weight: normal;
+	position: absolute;
+	left: 190px;
+}
+.desc { 
+	color: #b5bcc2;
+	font-size: 22px;
+	padding: 0 0 0 50px;
+}
 
 .weekday {
+	background-color: #fff;
 	border: 1px solid #d8d8d9;
-	display: inline-block;
+	float: left;
 	height: 478px;
 	margin: 10px;
 	padding: 10px;
@@ -86,13 +111,19 @@ body {
 	color: #cfcecd;
 	font-size: 12px;
 }
+.weekday ul {
+	max-height: 440px;
+	overflow-y: auto;
+}
 .weekday ul li {
 	border-bottom: 1px solid #cfcecd;
 	display: block;
-	margin: 15px 0;
+	margin: 15px 5px;
 	padding: 5px 0;
 }
 .weekday .addTaskBtn {
 	color: #cfcecd;
+	display: block;
 	padding: 5px;
+	text-decoration: none;
 }

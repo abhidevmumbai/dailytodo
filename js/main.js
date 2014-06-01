@@ -1,22 +1,24 @@
 var toDo = {
 	wrapperEl: null,
+	weekEl: null,
 	week: [],
 	today: null,
 	tomorrow: null,
 	todoObj: {},
 	init: function () {
 		this.wrapperEl = $('#wrapper');
+		this.weekEl = $('#week');
 		this.renderDays();
 		this.bindEvents();
 	},
 
 	bindEvents: function () {
 		// Add task btn
-		$('.weekday').on('click', '.addTaskBtn', function () {
-			var currDate = $(this).parent().data('date'),
-				task = $('<li/>').attr('contenteditable','true');
-			
-			$(this).siblings('ul').append(task);
+		$('.weekday').on('click', '.addTaskBtn', function (event) {
+			event.preventDefault();
+			var currDate = $(this).parent().data('date');
+
+			toDo.renderTask('', currDate);
 		});
 
 
@@ -58,16 +60,26 @@ var toDo = {
 		    			+ '</div>'
 		    			+ '<ul>'
 						+ '</ul>'
-		    			+ '<span class="addTaskBtn">+ click to add task</span>'
+		    			+ '<a href="#" class="addTaskBtn">+ click to add task</a>'
 		    		+
 		    		'</div>';
 		}
-		this.wrapperEl.html(htmlStr);
+		this.weekEl.html(htmlStr);
+
+		this.renderTasks();
 	},
 
 	renderTasks: function () {
-		for (var i = 0; i < 7; i++) {
-
+		if (localStorage.getItem('todo')) {
+			this.todoObj = JSON.parse(localStorage.getItem('todo'));
+			foo = this.todoObj;
+		}
+		for (var item in this.todoObj) {
+			var tasks = this.todoObj[item];
+			console.log(item);
+			for (var i = 0; i < tasks.length; i++) {
+				this.renderTask(tasks[i], item);
+			}
 		}
 	},
 
@@ -88,6 +100,11 @@ var toDo = {
 			// console.log(this.week);
 	},
 
+	renderTask: function (task, currDate) {
+		var task = $('<li/>').text(task).attr('contenteditable','true');
+		$('.weekday[data-date="'+ currDate +'"] ul').append(task);
+	},
+
 	addTask: function (task, currDate) {
 		var count = $('.weekday[data-date="'+ currDate +'"] li').length,
 			id = 0;
@@ -102,6 +119,10 @@ var toDo = {
 		console.log(id);
 		this.todoObj[currDate][id] = task;
 		// console.log(currDate);
+		this.updateLocalStorage();
+	},
+
+	updateLocalStorage: function () {
 		localStorage.setItem('todo', JSON.stringify(this.todoObj));
 	}
 }
