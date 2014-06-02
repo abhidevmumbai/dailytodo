@@ -34,25 +34,36 @@ var toDo = {
 		});
 	},
 
+	updateTaskList: function (day) {
+		var currDate = day.data('date'),
+			tasks = [];
+		console.log(currDate);
+		$('.weekday[data-date="'+ currDate +'"] ul span').each(function () {
+			tasks.push($(this).text());
+		});
+		this.todoObj[currDate] = tasks;
+		this.updateLocalStorage();
+	},
+
 	renderDays: function () {
-		var htmlStr = '',
-			hlClass = '';
+		var htmlStr = '';
 
 		// Get the current week
 		this.getCurrentWeek();
 
 		for (var i = 0; i < 7; i++) {
+			var hlClass = '';
 			if (this.today.getDate() == this.week[i].getDate()) {
-				hlClass = 'today';
+				hlClass = 'Today';
 			} 
 			if (this.tomorrow.getDate() == this.week[i].getDate()) {
-				hlClass = 'tomorrow';
+				hlClass = 'Tomorrow';
 			}	
 			
 			htmlStr += '<div class="weekday '+ hlClass +'" data-date="'+ this.week[i] +'">'
 						+ '<div class="head">'
 							+ '<span class="day FL">'
-								+ this.week[i].getDayName() 
+								+ (hlClass ? hlClass : this.week[i].getDayName()) 
 							+ '</span>'
 							+ '<span class="date FR">'
 								+ this.week[i].getDate() + ' ' + this.week[i].getMonthName()+ ' ' +this.week[i].getFullYear()
