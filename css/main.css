@@ -53,7 +53,6 @@ body {
 	background: #f0f1f2;
 	font-size: 14px;
 }
-
 .FL { float: left;} .FR { float: right;}
 header {
 	line-height: 100px;
@@ -62,21 +61,22 @@ header {
 .logo {
 	color: #1d89e4;
 	font-size: 50px;
-	font-family: 'Pacifico', cursive;
+	font-family: 'Pacifico', cursive, Arial;
+	float: left;
+	padding: 0 10px;
 }
 
-.desc:before {
+.slash{
 	color: #93a3b0;
-	content: "/";
-	font-size: 70px;
+	font-size: 50px;
+	margin: 0 15px;
+	float: left;
 	font-weight: normal;
-	position: absolute;
-	left: 190px;
 }
 .desc { 
 	color: #b5bcc2;
 	font-size: 22px;
-	padding: 0 0 0 50px;
+	float: left;
 }
 
 .weekday {
@@ -84,20 +84,26 @@ header {
 	border: 1px solid #d8d8d9;
 	float: left;
 	height: 478px;
-	margin: 10px;
+	margin: 5%;
 	padding: 10px 0;
 	width: 178px;
 }
 .weekday .head {
 	border-bottom: inherit;
 	overflow: hidden;
-	padding: 10px;
+	padding: 5%;
 }
-.weekday.today {
+.weekday.Today {
 	border: 1px solid #63a4db;
 }
-.weekday.tomorrow {
+.weekday.Today span.day {
+	color: #63a4db;
+}
+.weekday.Tomorrow {
 	border: 1px solid #abcbe7;
+}
+.weekday.Tomorrow span.day{
+	color: #abcbe7;
 }
 .weekday span{
 	display: block;
@@ -112,27 +118,43 @@ header {
 	font-size: 12px;
 }
 .weekday ul {
-	max-height: 440px;
+	max-height: 400px;
+	overflow-x: hidden;
 	overflow-y: auto;
 }
 .weekday ul li {
-	display: block;
+	overflow: hidden;
+	padding: 10px 10%;
 }
 .weekday ul li span {
 	border-bottom: 1px solid #cfcecd;
 	display: block;
-	padding: 10px;
-	margin: 10px 15px;
+	padding: 5px 3%;
+	overflow: hidden;
 }
 .weekday ul li:hover {
-	cursor: -webkit-grab;
-	cursor: -moz-grab;
-	cursor: grab;
+	cursor: -webkit-move;
+	cursor: -moz-move;
+	cursor: move;
 }
 .weekday .addTaskBtn {
 	color: #cfcecd;
 	display: block;
 	margin: 0 10px;
-	padding: 5px;
+	padding: 5%;
 	text-decoration: none;
+}
+
+
+@media (max-width : 480px) {
+	.logo, .desc {
+		float: none;
+		width: 100%;
+	}
+	.desc {
+		font-size: 18px;
+	}
+	.weekday {
+		width: 90%;
+	}
 }
