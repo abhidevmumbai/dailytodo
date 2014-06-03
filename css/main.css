@@ -131,6 +131,15 @@ header {
 	display: block;
 	padding: 5px 3%;
 	overflow: hidden;
+	position: relative;
+}
+.weekday ul li span .delBtn {
+	position: absolute;
+	right: 0;
+	top: 0;
+	background: #ddd;
+	display: none;
+	float: left;
 }
 .weekday ul li:hover {
 	cursor: -webkit-move;
@@ -144,7 +153,6 @@ header {
 	padding: 5%;
 	text-decoration: none;
 }
-
 
 @media (max-width : 480px) {
 	.logo, .desc {

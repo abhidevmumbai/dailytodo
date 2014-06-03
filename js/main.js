@@ -21,7 +21,15 @@ var toDo = {
 			toDo.renderTask('', currDate);
 		});
 
+		// Show Delete btn on tasks focusin
+		$('.weekday ul').on('focusin', 'li', function (index) {
+			var currDate = $(this).parent().parent().data('date');
 
+			$(this).find('.delBtn').fadeIn();
+			// console.log(task + ' - ' + currDate);
+		});
+
+		// Remove empty tasks on focusout
 		$('.weekday ul').on('focusout', 'li', function (index) {
 			var task = $(this).text(),
 				currDate = $(this).parent().parent().data('date');
@@ -30,9 +38,20 @@ var toDo = {
 			} else {
 				toDo.addTask(task, currDate);
 			}
+			$(this).find('.delBtn').hide();
 			// console.log(task + ' - ' + currDate);
 		});
 
+		// Delete task btn
+		$('.weekday').on('click', '.delBtn', function() {
+			var task = $(this).parent().parent(),
+				currDay = task.parent().parent();
+			task.remove();
+			// console.log(currDay);
+			toDo.updateTaskList(currDay);
+
+		});
+		
 		// Init the drag n drop functionality
 		DnD.init();
 	},
@@ -97,9 +116,10 @@ var toDo = {
 	},
 
 	renderTask: function (task, currDate) {
-		var task = $('<li/>').append('<span>'+ task +'</span>');
+		var task = $('<li/>').append('<span>'+ task +'</span>'),
+			delBtn = $('<input type="button" class="delBtn" value="x"/>');
 		task.attr('draggable', true);
-		task.find('span').attr('contenteditable','true');
+		task.find('span').attr('contenteditable','true').append(delBtn);
 		$('.weekday[data-date="'+ currDate +'"] ul').append(task);
 	},
 
@@ -117,6 +137,8 @@ var toDo = {
 		this.todoObj[currDate][id] = task;
 		// console.log(currDate);
 		this.updateLocalStorage();
+
+		// Bind drag n drop events
 		DnD.bindEvents();
 	},
 
@@ -205,9 +227,11 @@ var DnD = {
 
 			// Append the task to the target column
 			$(this).parent().append($(e.dataTransfer.getData('html')));
-			console.log(e.dataTransfer.getData('html'));
+
 			// Update the toDo object after the task has been dropped
 			toDo.updateTaskList(day);
+
+			// Bind drag n drop events
 			DnD.bindEvents();
 			// console.log(day.data('date'));
 		}
