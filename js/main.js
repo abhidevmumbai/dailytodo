@@ -30,19 +30,11 @@ var toDo = {
 			} else {
 				toDo.addTask(task, currDate);
 			}
-			console.log(task + ' - ' + currDate);
+			// console.log(task + ' - ' + currDate);
 		});
-	},
 
-	updateTaskList: function (day) {
-		var currDate = day.data('date'),
-			tasks = [];
-		console.log(currDate);
-		$('.weekday[data-date="'+ currDate +'"] ul span').each(function () {
-			tasks.push($(this).text());
-		});
-		this.todoObj[currDate] = tasks;
-		this.updateLocalStorage();
+		// Init the drag n drop functionality
+		DnD.init();
 	},
 
 	renderDays: function () {
@@ -87,13 +79,45 @@ var toDo = {
 		}
 		for (var item in this.todoObj) {
 			var tasks = this.todoObj[item];
-			console.log(item);
 			for (var i = 0; i < tasks.length; i++) {
 				this.renderTask(tasks[i], item);
 			}
 		}
 	},
 
+	updateTaskList: function (day) {
+		var currDate = day.data('date'),
+			tasks = [];
+		console.log(currDate);
+		$('.weekday[data-date="'+ currDate +'"] ul span').each(function () {
+			tasks.push($(this).text());
+		});
+		this.todoObj[currDate] = tasks;
+		this.updateLocalStorage();
+	},
+
+	renderTask: function (task, currDate) {
+		var task = $('<li/>').append('<span>'+ task +'</span>');
+		task.attr('draggable', true);
+		task.find('span').attr('contenteditable','true');
+		$('.weekday[data-date="'+ currDate +'"] ul').append(task);
+	},
+
+	addTask: function (task, currDate) {
+		var count = $('.weekday[data-date="'+ currDate +'"] li').length,
+			id = 0;
+		if (this.todoObj[currDate] == undefined) {
+			this.todoObj[currDate] = [];
+		}
+		if (count == 1) {
+			id = 0;
+		} else {
+			id = --count;
+		}
+		this.todoObj[currDate][id] = task;
+		// console.log(currDate);
+		this.updateLocalStorage();
+	},
 
 	getCurrentWeek: function () {
 		this.today = new Date();
@@ -111,31 +135,87 @@ var toDo = {
 			// console.log(this.week);
 	},
 
-	renderTask: function (task, currDate) {
-		var task = $('<li/>').append('<span>'+ task +'</span>');
-		task.find('span').attr('contenteditable','true');
-		$('.weekday[data-date="'+ currDate +'"] ul').append(task);
-	},
-
-	addTask: function (task, currDate) {
-		var count = $('.weekday[data-date="'+ currDate +'"] li').length,
-			id = 0;
-		if (this.todoObj[currDate] == undefined) {
-			this.todoObj[currDate] = [];
-		}
-		if (count == 1) {
-			id = 0;
-		} else {
-			id = --count;
-		}
-		console.log(id);
-		this.todoObj[currDate][id] = task;
-		// console.log(currDate);
-		this.updateLocalStorage();
-	},
-
 	updateLocalStorage: function () {
 		localStorage.setItem('todo', JSON.stringify(this.todoObj));
+	}
+}
+
+var DnD = {
+	dragSrcEl: null, // Source task element
+	srcDay: null, // Source day dom element
+	init: function () {
+		this.bindEvents();
+	},
+
+	bindEvents: function () {
+		var tasks = document.querySelectorAll('.weekday li');
+		[].forEach.call(tasks, function(task) {
+			task.addEventListener('dragstart', DnD.handleDragStart, false);
+			task.addEventListener('dragenter', DnD.handleDragEnter, false)
+			task.addEventListener('dragover', DnD.handleDragOver, false);
+			task.addEventListener('dragleave', DnD.handleDragLeave, false);
+			task.addEventListener('drop', DnD.handleDrop, false);
+			task.addEventListener('dragend', DnD.handleDragEnd, false);
+		});
+	},
+
+	handleDragStart: function (e) {
+		DnD.dragSrcEl = this;
+
+		DnD.srcDay = $(DnD.dragSrcEl).parent().parent();
+
+		e.dataTransfer.effectAllowed = 'move';
+		
+		// Transfer the task html
+		e.dataTransfer.setData('html', $(DnD.dragSrcEl)[0].outerHTML);
+		console.log($(DnD.dragSrcEl));
+		// console.log(day.data('date'));
+	},
+
+	handleDragOver: function (e) {
+		if (e.preventDefault) {
+			e.preventDefault(); // Necessary. Allows us to drop.
+		}
+
+		e.dataTransfer.dropEffect = 'move';
+
+		return false;
+	},
+
+	handleDragEnter: function (e) {
+		// this / e.target is the current hover target.
+	},
+
+	handleDragLeave: function (e) {
+		// this / e.target is previous target element.
+	},
+
+	handleDrop: function (e) {
+		// this / e.target is current target element.
+		if (e.stopPropagation) {
+			e.stopPropagation(); // stops the browser from redirecting.
+		}
+
+		var day = $(this).parent().parent();
+		// Don't do anything if dropping the same column we're dragging.
+		if (DnD.dragSrcEl != this) {
+			// Remove the task from the source column and Update the toDo object
+			$.when($(DnD.dragSrcEl).remove()).then(toDo.updateTaskList(DnD.srcDay));
+
+			// Append the task to the target column
+			$(this).parent().append($(e.dataTransfer.getData('html')));
+			console.log(e.dataTransfer.getData('html'));
+			// Update the toDo object after the task has been dropped
+			toDo.updateTaskList(day);
+			// console.log(day.data('date'));
+		}
+		DnD.init();
+		return false;
+	},
+
+	handleDragEnd: function (e) {
+		// this/e.target is the source node.
+
 	}
 }
 
