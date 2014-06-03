@@ -117,6 +117,7 @@ var toDo = {
 		this.todoObj[currDate][id] = task;
 		// console.log(currDate);
 		this.updateLocalStorage();
+		DnD.bindEvents();
 	},
 
 	getCurrentWeek: function () {
@@ -207,15 +208,15 @@ var DnD = {
 			console.log(e.dataTransfer.getData('html'));
 			// Update the toDo object after the task has been dropped
 			toDo.updateTaskList(day);
+			DnD.bindEvents();
 			// console.log(day.data('date'));
 		}
-		DnD.init();
+		
 		return false;
 	},
 
 	handleDragEnd: function (e) {
 		// this/e.target is the source node.
-
 	}
 }
 
