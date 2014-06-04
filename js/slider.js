@@ -1,6 +1,7 @@
 var slider = {
-	wrapper: null,
+	sliderEl: null,
 	viewport: null,
+	windowW: null,
 	cards: null,
 	cardW: null,
 	cardH: null,
@@ -11,23 +12,35 @@ var slider = {
 	isWorking: false,
 
 	init: function () {
-		this.wrapper = $('.slider');
-		this.container = this.wrapper.find('.container');
-		this.cards = this.wrapper.find('.card');
-		this.cardW = this.cards.outerWidth();
-		this.cardH = this.cards.outerHeight();
+		this.sliderEl = $('.slider');
+		this.container = this.sliderEl.find('.container');
+		this.cards = this.sliderEl.find('.card');
 		this.cardCount = this.cards.length;
 
 		// wrap a div around the container
 		this.container.wrap( "<div class='viewport'></div>" )
 
-		this.viewport = this.wrapper.find('.viewport');
+		this.viewport = this.sliderEl.find('.viewport');
 
-		// Set the
-		this.wrapper.width($(window).width()).height(this.cardH);
+		slider.calDimensions();
+		$(window).resize(function () {
+			slider.calDimensions();
+		})
+		this.addControls();
+	},
+
+	calDimensions: function () {
+		this.windowW = $(window).width();
+		this.windowH = $(window).height();
+		this.cardW = this.cards.outerWidth();
+		this.cardH = this.cards.outerHeight();
+		
+		// Set the viewport height
+		this.viewport.height(this.windowH);
+
+		// Set the container width
 		this.container.width(this.cards.length * this.cardW + this.cardCount * 20);
 		
-		this.addControls();
 	},
 
 	attachEvents: function () {
@@ -42,13 +55,13 @@ var slider = {
 	},
 
 	addControls: function () {
-		var controls = '<a href="#" class="prevBtn btn"></a><a href="#" class="nextBtn btn"></a>';
+		var controls = '<div class="controls"><a href="#" class="prevBtn btn"></a><a href="#" class="nextBtn btn"></a></div>';
 
 		// ADD the controls to the viewport
-		this.wrapper.append(controls);
+		this.sliderEl.append(controls);
 
-		this.prevBtn = this.wrapper.find('.prevBtn');
-		this.nextBtn = this.wrapper.find('.nextBtn');
+		this.prevBtn = this.sliderEl.find('.prevBtn');
+		this.nextBtn = this.sliderEl.find('.nextBtn');
 
 		// Bind control actions
 		this.attachEvents();

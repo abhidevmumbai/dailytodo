@@ -78,23 +78,20 @@ header {
 	font-size: 22px;
 	float: left;
 }
-#week {
-	
-}
 
 .weekday {
 	background-color: #fff;
 	border: 1px solid #d8d8d9;
 	float: left;
-	height: 478px;
-	margin: 0 10px;
-	padding: 10px 0;
+	height: 90%;
+	margin: 1% 10px;
+	overflow: hidden;
 	width: 178px;
 }
 .weekday .head {
 	border-bottom: inherit;
 	overflow: hidden;
-	padding: 5%;
+	padding: 3% 10px;
 }
 .weekday.Today {
 	border: 1px solid #63a4db;
@@ -121,13 +118,13 @@ header {
 	font-size: 12px;
 }
 .weekday ul {
-	max-height: 400px;
+	max-height: 78%;
 	overflow-x: hidden;
 	overflow-y: auto;
 }
 .weekday ul li {
 	overflow: hidden;
-	padding: 10px 10%;
+	padding: 10px;
 }
 .weekday ul li span {
 	border-bottom: 1px solid #cfcecd;
@@ -167,16 +164,16 @@ header {
 	Slider styles
 */
 .slider {
-	margin: 10px 0;
 	position: relative;
 }
 .slider .viewport {
-	height: 500px;
-	margin: 10px 50px;
+	/*height: 500px;*/
+	margin: 0 50px;
 	overflow: hidden;
 	position: relative;
 }
 .slider .container {
+	height: 100%;
 	position: absolute;
 	left:0;
 }
@@ -199,7 +196,7 @@ header {
 }
 
 
-@media (max-width : 480px) {
+@media (max-width : 400px) {
 	.logo, .desc {
 		float: none;
 		width: 100%;
@@ -208,6 +205,14 @@ header {
 		font-size: 18px;
 	}
 	.weekday {
-		width: 98%;
+		width: 370px;
+	}
+
+	/* slider */
+	.slider .viewport {
+		margin: 0;
+	}
+	.slider .controls {
+		display: none;
 	}
 }
