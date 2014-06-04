@@ -39,7 +39,7 @@ var slider = {
 		this.viewport.height(this.windowH);
 
 		// Set the container width
-		this.container.width(this.cards.length * this.cardW + this.cardCount * 20);
+		this.container.width(this.cards.length * this.cardW + this.cardCount * 20).css({ 'left': 0});
 		
 	},
 
@@ -51,6 +51,17 @@ var slider = {
 		this.nextBtn.bind('click', function (event) {
 			event.preventDefault();
 			slider.slideRight();
+		});
+
+		this.sliderEl.swipe({
+			swipeLeft:function(event, direction, distance, duration, fingerCount) {
+				//This only fires when the user swipes left
+				slider.slideRight();
+			},
+			swipeRight:function(event, direction, distance, duration, fingerCount) {
+				//This only fires when the user swipes left
+				slider.slideLeft();
+			}
 		});
 	},
 
@@ -69,7 +80,6 @@ var slider = {
 
 	slideLeft: function () {
 		if (this.slideCount && !this.isWorking) {
-			console.log('slide left');
 			var pos = this.container.position(),
 				lPos = pos.left + slider.cardW + 20;
 			this.isWorking = true;
@@ -79,12 +89,12 @@ var slider = {
 				slider.isWorking = false;
 			});
 			this.slideCount--;
+			// console.log('slide left');
 		}
 	},
 
 	slideRight: function () {
 		if ((this.slideCount < (this.cardCount-1)) && !this.isWorking) {
-			console.log('slide right');
 			var pos = this.container.position();
 			var lPos = pos.left - slider.cardW - 20;
 			this.isWorking = true; 
@@ -94,6 +104,7 @@ var slider = {
 				slider.isWorking = false;
 			});
 			this.slideCount++;
+			// console.log('slide right');
 		}
 	}
 }
