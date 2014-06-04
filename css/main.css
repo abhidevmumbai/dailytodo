@@ -78,13 +78,16 @@ header {
 	font-size: 22px;
 	float: left;
 }
+#week {
+	
+}
 
 .weekday {
 	background-color: #fff;
 	border: 1px solid #d8d8d9;
 	float: left;
 	height: 478px;
-	margin: 1%;
+	margin: 0 10px;
 	padding: 10px 0;
 	width: 178px;
 }
@@ -135,9 +138,9 @@ header {
 }
 .weekday ul li span .delBtn {
 	background: #fff;
-	box-shadow: 0px 0px 10px #bbb;
 	-moz-box-shadow: 0px 0px 10px #bbb;
 	-webkit-box-shadow: 0px 0px 10px #bbb;
+	box-shadow: 0px 0px 10px #bbb;
 	border: none;
 	color: #cc0000;
 	display: none;
@@ -159,6 +162,42 @@ header {
 	padding: 5%;
 	text-decoration: none;
 }
+
+/*
+	Slider styles
+*/
+.slider {
+	margin: 10px 0;
+	position: relative;
+}
+.slider .viewport {
+	height: 500px;
+	margin: 10px 50px;
+	overflow: hidden;
+	position: relative;
+}
+.slider .container {
+	position: absolute;
+	left:0;
+}
+.slider .btn {
+	background: url(../images/arrow.gif) no-repeat top left;
+	width: 31px;
+	height: 96px;
+	position: absolute;
+}
+.slider .prevBtn {
+	left: 10px;
+	top: 150px;
+}
+.slider .nextBtn {
+	right: 10px;
+	top: 150px;
+	-webkit-transform: scaleX(-1);
+	-moz-transform: scaleX(-1);
+	transform: scaleX(-1);
+}
+
 
 @media (max-width : 480px) {
 	.logo, .desc {

@@ -7,7 +7,7 @@ var toDo = {
 	todoObj: {},
 	init: function () {
 		this.wrapperEl = $('#wrapper');
-		this.weekEl = $('#week');
+		this.weekEl = $('#week .container');
 		this.renderDays();
 		this.bindEvents();
 	},
@@ -71,7 +71,7 @@ var toDo = {
 				hlClass = 'Tomorrow';
 			}	
 			
-			htmlStr += '<div class="weekday '+ hlClass +'" data-date="'+ this.week[i] +'">'
+			htmlStr += '<div class="weekday card '+ hlClass +'" data-date="'+ this.week[i] +'">'
 						+ '<div class="head">'
 							+ '<span class="day FL">'
 								+ (hlClass ? hlClass : this.week[i].getDayName()) 
@@ -89,6 +89,8 @@ var toDo = {
 		this.weekEl.html(htmlStr);
 
 		this.renderTasks();
+
+		slider.init();
 	},
 
 	renderTasks: function () {
