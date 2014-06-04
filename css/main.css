@@ -75,6 +75,7 @@ header {
 }
 .desc { 
 	color: #b5bcc2;
+	font-family: Helvetica;
 	font-size: 22px;
 	float: left;
 }
@@ -84,7 +85,7 @@ header {
 	border: 1px solid #d8d8d9;
 	float: left;
 	height: 90%;
-	margin: 1% 10px;
+	margin: 10px;
 	overflow: hidden;
 	width: 178px;
 }
@@ -198,12 +199,13 @@ header {
 
 
 @media (max-width : 400px) {
-	.logo, .desc {
+	.logo {
+		font-size: 35px;
 		float: none;
 		width: 100%;
 	}
-	.desc {
-		font-size: 18px;
+	.slash, .desc {
+		display: none;
 	}
 	.weekday {
 		width: 370px;

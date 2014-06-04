@@ -36,7 +36,7 @@ var slider = {
 		this.cardH = this.cards.outerHeight();
 		
 		// Set the viewport height
-		this.viewport.height(this.windowH);
+		this.viewport.height(this.windowH - $('header').outerHeight());
 
 		// Set the container width
 		this.container.width(this.cards.length * this.cardW + this.cardCount * 20).css({ 'left': 0});
