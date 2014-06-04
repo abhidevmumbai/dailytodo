@@ -148,6 +148,7 @@ header {
 	top: 0;
 }
 .weekday ul li:hover {
+	background: url(../images/dragIco.gif) no-repeat 5px 5px;
 	cursor: -webkit-move;
 	cursor: -moz-move;
 	cursor: move;
