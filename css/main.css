@@ -124,7 +124,7 @@ header {
 }
 .weekday ul li {
 	overflow: hidden;
-	padding: 10px;
+	padding: 10px 15px;
 }
 .weekday ul li span {
 	border-bottom: 1px solid #cfcecd;

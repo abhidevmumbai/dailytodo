@@ -53,7 +53,8 @@ var slider = {
 			slider.slideRight();
 		});
 
-		this.sliderEl.swipe({
+		if (this.windowW < 400) {
+			this.sliderEl.swipe({
 			swipeLeft:function(event, direction, distance, duration, fingerCount) {
 				//This only fires when the user swipes left
 				slider.slideRight();
@@ -62,7 +63,9 @@ var slider = {
 				//This only fires when the user swipes left
 				slider.slideLeft();
 			}
-		});
+		});	
+		}
+		
 	},
 
 	addControls: function () {
