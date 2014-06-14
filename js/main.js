@@ -8,10 +8,11 @@ var toDo = {
 	init: function () {
 		this.wrapperEl = $('#wrapper');
 		this.weekEl = $('#week .container');
-		this.renderDays();
+		this.renderAllDays();
 		this.bindEvents();
 	},
 
+	// Bind all events
 	bindEvents: function () {
 		// Add task btn
 		$('.weekday').on('click', '.addTaskBtn', function (event) {
@@ -56,22 +57,43 @@ var toDo = {
 		DnD.init();
 	},
 
-	renderDays: function () {
-		var htmlStr = '';
+	// Show Today/ Tomorrow based on the date
+	todayTomorrowClass: function (i) {
+		var hlClass = '';
+		if (this.today.getDate() == this.week[i].getDate()) {
+			hlClass = 'Today';
+		} 
+		if (this.tomorrow.getDate() == this.week[i].getDate()) {
+			hlClass = 'Tomorrow';
+		}	
+		return hlClass;
+	},
 
-		// Get the current week
-		this.getCurrentWeek();
+	// Add next day card
+	addNextDay: function () {
+		var len = toDo.week.length,
+			nextDay = toDo.week[len - 1];
+		nextDay.setDate(toDo.week[len - 1].getDate() + 1);
+		toDo.week.push(nextDay);
+		toDo.renderDay(len, '', 'next');
+		slider.setDimensions();
+		// console.log('Add next day');
+	},
 
-		for (var i = 0; i < 7; i++) {
-			var hlClass = '';
-			if (this.today.getDate() == this.week[i].getDate()) {
-				hlClass = 'Today';
-			} 
-			if (this.tomorrow.getDate() == this.week[i].getDate()) {
-				hlClass = 'Tomorrow';
-			}	
-			
-			htmlStr += '<div class="weekday card '+ hlClass +'" data-date="'+ this.week[i] +'">'
+	// Add next day card
+	addPrevDay: function () {
+		var len = toDo.week.length,
+			prevDay = toDo.week[0];
+		prevDay.setDate(toDo.week[0].getDate() - 1);
+		toDo.week.unshift(prevDay);
+		toDo.renderDay(0, '', 'prev');
+		slider.setDimensions();
+		// console.log('Add prev day');
+	},
+
+	// Render single day
+	renderDay: function (i, hlClass, pos) {
+		var htmlStr = '<div class="weekday card '+ hlClass +'" data-date="'+ this.week[i] +'">'
 						+ '<div class="head">'
 							+ '<span class="day FL">'
 								+ (hlClass ? hlClass : this.week[i].getDayName()) 
@@ -79,24 +101,50 @@ var toDo = {
 							+ '<span class="date FR">'
 								+ this.week[i].getDate() + ' ' + this.week[i].getMonthName()+ ' ' +this.week[i].getFullYear()
 							+ '</span>'
-		    			+ '</div>'
-		    			+ '<ul>'
+						+ '</div>'
+						+ '<ul>'
 						+ '</ul>'
-		    			+ '<a href="#" class="addTaskBtn">+ click to add task</a>'
-		    		+
-		    		'</div>';
+						+ '<a href="#" class="addTaskBtn">+ click to add task</a>'
+					+
+					'</div>';
+		if (pos == 'next') {
+			this.weekEl.append(htmlStr);	
+		} else {
+			this.weekEl.prepend(htmlStr);
 		}
-		this.weekEl.html(htmlStr);
+		
+	},
 
-		this.renderTasks();
+	// Render all days
+	renderAllDays: function () {
+		var htmlStr = '';
+
+		// Get the current week
+		this.getCurrentWeek();
+
+		for (var i = 0; i < this.week.length; i++) {
+			var hlClass = this.todayTomorrowClass(i);
+			htmlStr = this.renderDay(i, hlClass, 'next');
+		}
+
+		this.renderAllTasks();
 
 		slider.init();
 	},
 
-	renderTasks: function () {
+	// Render single Task
+	renderTask: function (task, currDate) {
+		var task = $('<li/>').append('<span>'+ task +'</span>'),
+			delBtn = $('<input type="button" class="delBtn" value="x"/>');
+		task.attr('draggable', true);
+		task.find('span').attr('contenteditable','true').append(delBtn);
+		$('.weekday[data-date="'+ currDate +'"] ul').append(task);
+	},	
+ 
+ 	// Render all Tasks
+	renderAllTasks: function () {
 		if (localStorage.getItem('todo')) {
 			this.todoObj = JSON.parse(localStorage.getItem('todo'));
-			foo = this.todoObj;
 		}
 		for (var item in this.todoObj) {
 			var tasks = this.todoObj[item];
@@ -106,6 +154,7 @@ var toDo = {
 		}
 	},
 
+	// Update the tasks list from the DOM after shuffling of the tasks from one day to another
 	updateTaskList: function (day) {
 		var currDate = day.data('date'),
 			tasks = [];
@@ -117,14 +166,7 @@ var toDo = {
 		this.updateLocalStorage();
 	},
 
-	renderTask: function (task, currDate) {
-		var task = $('<li/>').append('<span>'+ task +'</span>'),
-			delBtn = $('<input type="button" class="delBtn" value="x"/>');
-		task.attr('draggable', true);
-		task.find('span').attr('contenteditable','true').append(delBtn);
-		$('.weekday[data-date="'+ currDate +'"] ul').append(task);
-	},
-
+	// Add single task
 	addTask: function (task, currDate) {
 		var count = $('.weekday[data-date="'+ currDate +'"] li').length,
 			id = 0;
@@ -144,6 +186,7 @@ var toDo = {
 		DnD.bindEvents();
 	},
 
+	// Get the current week
 	getCurrentWeek: function () {
 		this.today = new Date();
 		this.tomorrow = new Date();
@@ -160,11 +203,16 @@ var toDo = {
 			// console.log(this.week);
 	},
 
+	// Update the LocalStorage
 	updateLocalStorage: function () {
 		localStorage.setItem('todo', JSON.stringify(this.todoObj));
 	}
 }
 
+
+/*
+	Drag and Drop 
+*/
 var DnD = {
 	dragSrcEl: null, // Source task element
 	srcDay: null, // Source day dom element
