@@ -119,21 +119,24 @@ var slider = {
 	// Slide the slider to the right
 	slideRight: function () {
 		if (!this.isWorking) {
+			var pos = this.container.position();
+			this.lPos = pos.left - slider.cardW - 20;
+
 			if (this.slideCount < (this.cardCount-1)) {
-				var pos = this.container.position();
-				this.lPos = pos.left - slider.cardW - 20;
+				
 				this.isWorking = true; 
-				this.container.animate({
-					left: this.lPos + 'px'
-				}, function() {
-					slider.isWorking = false;
-				});
-				this.slideCount++;
+				
 				// console.log('slide right');
 			} else {
 				// Add a new card for the next day
 				toDo.addNextDay();
 			}
+			this.container.animate({
+					left: this.lPos + 'px'
+				}, function() {
+					slider.isWorking = false;
+				});
+			this.slideCount++;	
 		}
 		
 	}

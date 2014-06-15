@@ -60,10 +60,10 @@ var toDo = {
 	// Show Today/ Tomorrow based on the date
 	todayTomorrowClass: function (i) {
 		var hlClass = '';
-		if (this.today.getDate() == this.week[i].getDate()) {
+		if (toDo.today.getDate() == this.week[i].getDate()) {
 			hlClass = 'Today';
 		} 
-		if (this.tomorrow.getDate() == this.week[i].getDate()) {
+		if (toDo.tomorrow.getDate() == this.week[i].getDate()) {
 			hlClass = 'Tomorrow';
 		}	
 		return hlClass;
@@ -72,15 +72,17 @@ var toDo = {
 	// Add next day card
 	addNextDay: function () {
 		var len = toDo.week.length,
-			nextDay = toDo.week[len - 1];
+			nextDay = toDo.week[len - 1],
+			hlClass = '';
 		nextDay.setDate(toDo.week[len - 1].getDate() + 1);
 		toDo.week.push(nextDay);
-		toDo.renderDay(len, '', 'next');
+		hlClass = this.todayTomorrowClass(len-1);
+		toDo.renderDay(len, hlClass, 'next');
 		slider.setDimensions();
 		// console.log('Add next day');
 	},
 
-	// Add next day card
+	// Add prev day card
 	addPrevDay: function () {
 		var len = toDo.week.length,
 			prevDay = toDo.week[0];
