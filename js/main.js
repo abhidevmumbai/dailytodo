@@ -139,7 +139,7 @@ var toDo = {
 		var task = $('<li/>').append('<span>'+ task +'</span>'),
 			delBtn = $('<span class="delBtn typcn typcn-times"></span>');
 		task.attr('draggable', true);
-		task.find('span').attr('contenteditable','true');
+		task.find('span:first').attr('contenteditable','true');
 		task.append(delBtn);
 		$('.weekday[data-date="'+ currDate +'"] ul').append(task);
 
