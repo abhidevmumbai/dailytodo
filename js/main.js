@@ -15,15 +15,15 @@ var toDo = {
 	// Bind all events
 	bindEvents: function () {
 		// Add task btn
-		$('.weekday').on('click', '.addTaskBtn', function (event) {
+		$('#week').on('click', '.addTaskBtn', function (event) {
 			event.preventDefault();
 			var currDate = $(this).parent().data('date');
 
-			toDo.renderTask('', currDate);
+			toDo.renderTask('Enter task', currDate);
 		});
 
 		// Show Delete btn on tasks focusin
-		$('.weekday ul').on('focusin', 'li', function (index) {
+		$('#week').on('focusin', 'li', function () {
 			var currDate = $(this).parent().parent().data('date');
 
 			$(this).find('.delBtn').fadeIn();
@@ -31,7 +31,7 @@ var toDo = {
 		});
 
 		// Remove empty tasks on focusout
-		$('.weekday ul').on('focusout', 'li', function (index) {
+		$('#week').on('focusout', 'li', function () {
 			var task = $(this).text(),
 				currDate = $(this).parent().parent().data('date');
 			if (task == '') {
@@ -141,8 +141,10 @@ var toDo = {
 		task.attr('draggable', true);
 		task.find('span').attr('contenteditable','true');
 		task.append(delBtn);
-		task.focusin();
 		$('.weekday[data-date="'+ currDate +'"] ul').append(task);
+
+		// Select the default text
+		utils.select_all(task.find('span:first')[0]);
 	},	
  
  	// Render all Tasks

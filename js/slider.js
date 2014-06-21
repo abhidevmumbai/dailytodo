@@ -67,15 +67,15 @@ var slider = {
 
 		if (this.windowW < 400) {
 			this.sliderEl.swipe({
-			swipeLeft:function(event, direction, distance, duration, fingerCount) {
-				//This only fires when the user swipes left
-				slider.slideRight();
-			},
-			swipeRight:function(event, direction, distance, duration, fingerCount) {
-				//This only fires when the user swipes left
-				slider.slideLeft();
-			}
-		});	
+				swipeLeft:function(event, direction, distance, duration, fingerCount) {
+					//This only fires when the user swipes left
+					slider.slideRight();
+				},
+				swipeRight:function(event, direction, distance, duration, fingerCount) {
+					//This only fires when the user swipes left
+					slider.slideLeft();
+				}
+			});
 		}
 		
 	},
