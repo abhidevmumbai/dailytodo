@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Pacifico);
+/*@import url(http://fonts.googleapis.com/css?family=Pacifico);*/
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
@@ -51,7 +51,8 @@ table {
 /**********************************************************/
 body { 
 	background: #f0f1f2;
-	font-size: 14px;
+	font-family: Helvetica;
+	font-size: 13px;
 }
 .FL { float: left;} .FR { float: right;}
 header {
@@ -75,7 +76,6 @@ header {
 }
 .desc { 
 	color: #b5bcc2;
-	font-family: Helvetica;
 	font-size: 22px;
 	float: left;
 }
@@ -87,7 +87,7 @@ header {
 	height: 90%;
 	margin: 10px;
 	overflow: hidden;
-	width: 178px;
+	width: 172px;
 }
 .weekday .head {
 	border-bottom: inherit;
@@ -126,6 +126,7 @@ header {
 .weekday ul li {
 	overflow: hidden;
 	padding: 10px 15px;
+	position: relative;
 }
 .weekday ul li span {
 	border-bottom: 1px solid #cfcecd;
@@ -134,18 +135,20 @@ header {
 	overflow: hidden;
 	position: relative;
 }
-.weekday ul li span .delBtn {
+.weekday ul li .delBtn {
 	background: #fff;
-	-moz-box-shadow: 0px 0px 10px #bbb;
-	-webkit-box-shadow: 0px 0px 10px #bbb;
-	box-shadow: 0px 0px 10px #bbb;
-	border: none;
-	color: #cc0000;
+	border: 1px solid #ddd;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	color: #E64949;
+	cursor: pointer;
 	display: none;
 	font-weight: bold;
 	float: left;
+	padding: 2px;
 	position: absolute;
-	right: 0;
+	right: 5px;
 	top: 0;
 }
 .weekday ul li:hover {
@@ -198,7 +201,7 @@ header {
 }
 
 
-@media (max-width : 400px) {
+@media all and (max-width : 320px) {
 	.logo {
 		font-size: 35px;
 		float: none;
@@ -208,7 +211,7 @@ header {
 		display: none;
 	}
 	.weekday {
-		width: 370px;
+		width: 298px;
 	}
 
 	/* slider */
@@ -219,3 +222,4 @@ header {
 		display: none;
 	}
 }
+

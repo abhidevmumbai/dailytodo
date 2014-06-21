@@ -39,13 +39,13 @@ var toDo = {
 			} else {
 				toDo.addTask(task, currDate);
 			}
-			$(this).find('.delBtn').hide();
+			$(this).find('.delBtn').delay(1000).fadeOut();
 			// console.log(task + ' - ' + currDate);
 		});
 
 		// Delete task btn
 		$('.weekday').on('click', '.delBtn', function() {
-			var task = $(this).parent().parent(),
+			var task = $(this).parent(),
 				currDay = task.parent().parent();
 			task.remove();
 			// console.log(currDay);
@@ -137,9 +137,11 @@ var toDo = {
 	// Render single Task
 	renderTask: function (task, currDate) {
 		var task = $('<li/>').append('<span>'+ task +'</span>'),
-			delBtn = $('<input type="button" class="delBtn" value="x"/>');
+			delBtn = $('<span class="delBtn typcn typcn-times"></span>');
 		task.attr('draggable', true);
-		task.find('span').attr('contenteditable','true').append(delBtn);
+		task.find('span').attr('contenteditable','true');
+		task.append(delBtn);
+		task.focusin();
 		$('.weekday[data-date="'+ currDate +'"] ul').append(task);
 	},	
  
@@ -160,9 +162,12 @@ var toDo = {
 	updateTaskList: function (day) {
 		var currDate = day.data('date'),
 			tasks = [];
-		console.log(currDate);
+		// console.log(currDate);
 		$('.weekday[data-date="'+ currDate +'"] ul span').each(function () {
-			tasks.push($(this).text());
+			var text = $(this).text();
+			if (text != '') {
+				tasks.push(text);
+			}
 		});
 		this.todoObj[currDate] = tasks;
 		this.updateLocalStorage();
