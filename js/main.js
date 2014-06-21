@@ -33,9 +33,11 @@ var toDo = {
 		// Remove empty tasks on focusout
 		$('#week').on('focusout', 'li', function () {
 			var task = $(this).text(),
-				currDate = $(this).parent().parent().data('date');
+				currDay = $(this).parent().parent(),
+				currDate = currDay.data('date');
 			if (task == '') {
 				$(this).remove();
+				toDo.updateTaskList(currDay);
 			} else {
 				toDo.addTask(task, currDate);
 			}
