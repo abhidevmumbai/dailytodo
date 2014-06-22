@@ -46,7 +46,7 @@ var toDo = {
 		});
 
 		// Delete task btn
-		$('.weekday').on('click', '.delBtn', function() {
+		$('#week').on('click', '.delBtn', function() {
 			var task = $(this).parent(),
 				currDay = task.parent().parent();
 			task.remove();
