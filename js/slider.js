@@ -98,21 +98,25 @@ var slider = {
 	slideLeft: function () {
 		if (!this.isWorking) {
 			// Setting the lpos to -ve to animate the slider when a new previous day card is added
-			this.container.css({'left': this.lPos - slider.cardW - 20 + 'px'});
-			this.container.animate({
-				left: this.lPos + 'px'
-			}, function() {
-				slider.isWorking = false;
-			});
-			
 			if (this.slideCount) {
 				var pos = this.container.position();
 				this.lPos = pos.left + slider.cardW + 20;
 				
 				this.isWorking = true;
 				this.slideCount--;
+				this.container.animate({
+					left: this.lPos + 'px'
+				}, function() {
+					slider.isWorking = false;
+				});
 			} else {
 				// Add a new card for the previous day
+				this.container.css({'left': this.lPos - slider.cardW - 20 + 'px'});
+				this.container.animate({
+					left: this.lPos + 'px'
+				}, function() {
+					slider.isWorking = false;
+				});
 				toDo.addPrevDay();
 			}
 		}
